@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY LOVE Gallery</title>
+    <script>
+      const navEntries = performance.getEntriesByType('navigation');
+      const isReload = navEntries.length
+        ? navEntries[0].type === 'reload'
+        : (performance.navigation && performance.navigation.type === 1);
+      if (isReload && !window.location.href.includes('suprise.html')) {
+        window.location.href = 'suprise.html';
+      }
+    </script>
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #22023a 0%, #360a5f 37%, #c455c5 65%, #140022 100%);
+            --border: rgba(255, 255, 255, 0.22);
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: var(--bg);
+            background-attachment: fixed;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;
+            padding: 16px 14px; z-index: 999;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25), 0 0 40px rgba(196,85,197,0.08);
+        }
+
+        .navbar a {
+            position: relative; color: white; text-decoration: none;
+            font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 600;
+            padding: 11px 20px; border-radius: 14px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+            transition: 0.35s ease; overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18); display: inline-block;
+        }
+        .navbar a::before {
+            content: ""; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: 0.5s;
+        }
+        .navbar a:hover::before { left: 100%; }
+        .navbar a:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.28), 0 0 25px rgba(255,182,230,0.25);
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; text-align: center;
+            padding: 100px 20px 60px; gap: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            letter-spacing: 0.12em; color: #ffd8ff;
+            text-shadow: 0 12px 24px rgba(0,0,0,0.28), 0 0 20px rgba(255,182,230,0.25);
+        }
+
+        .scroll-hint {
+            display: inline-flex; align-items: center; gap: 10px;
+            margin-top: 40px; font-size: 0.95rem; letter-spacing: 0.08em;
+            text-transform: uppercase; color: rgba(255,255,255,0.9);
+        }
+        .scroll-hint::after {
+            content: "\2193"; display: inline-block;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* GALLERY GRID */
+        #gallery {
+            padding: 60px 16px 100px;
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* PHOTO CARD with overlay text */
+        .mem-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,255,255,0.15);
+            aspect-ratio: 4/3;
+            background: #1a0030;
+        }
+
+        .mem-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .mem-card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* dark fade at bottom */
+        .mem-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 30%,
+                rgba(10, 0, 20, 0.55) 60%,
+                rgba(10, 0, 20, 0.88) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* accent line */
+        .mem-card .overlay::before {
+            content: "";
+            position: absolute;
+            left: 24px; bottom: calc(100% - 68%);
+            width: 40px; height: 3px;
+            background: linear-gradient(90deg, #FFB4E8, #FF6B9C);
+            border-radius: 4px;
+        }
+
+        .mem-card .text {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 20px 22px 22px;
+            z-index: 2;
+        }
+
+        .mem-card .text h2 {
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            color: #ffd8ff;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            font-weight: 700;
+        }
+
+        .mem-card .text p {
+            font-size: clamp(0.82rem, 3vw, 0.95rem);
+            color: rgba(255,230,245,0.88);
+            line-height: 1.55;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+        }
+
+        /* mobile */
+        @media (max-width: 480px) {
+            .navbar { padding: 10px 8px; gap: 8px; }
+            .navbar a { font-size: 0.78rem; padding: 9px 12px; border-radius: 12px; min-width: 70px; text-align: center; }
+            #gallery { padding: 40px 12px 80px; gap: 20px; }
+            .mem-card { border-radius: 18px; aspect-ratio: 3/4; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="memories.html">Memories</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="message.html">Message</a>
+        <a href="games.html">Games</a>
+    </div>
+
+    <section class="hero">
+        <h1>GALLERY ❤️</h1>
+        <div class="scroll-hint">Scroll down</div>
+    </section>
+
+    <div id="gallery">
+
+        <div class="mem-card">
+            <img src="1st.jpg" alt="Sweet first moments">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Sweet first moments</h2>
+                <p>Wala pa masyado maayos na dami kaya ayan muna sakto winter din para di tayo lamigin hahaha, tas holding hands ayieeeee.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="2nd.jpg" alt="Our story">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Our story</h2>
+                <p>Cote mo ditoo baby meowmeooow, nun na discover natin emote sa hato tas hanap tayo ng place ng picture, mali pa yun ginamit ko dyan that time yun scanner yun ginamit ko sa ibon imbes na camera HAHAHAHAHAHA.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="yona.jpg" alt="More than just pictures">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>More than just pictures</h2>
+                <p>Ganda ng kuha natin dito my meowmeoow huehehe tas emo era tayo.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="3rd.jpg" alt="Forever together">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Forever together</h2>
+                <p>New emotee ulit gandaa natin dito heuehue muka kang gengeng dito e HAHAHAHA.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="4TH.jpg" alt="Kwarto ni ate Joy">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Kwarto ni ate Joy</h2>
+                <p>Hala naga lulu na HHAAHAHHAHA.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="yona.jpg" alt="Party ni dorothy">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Party ni dorothy</h2>
+                <p>Nood fireworks with youu.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="67.png" alt="Nag ukay ukay">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Nag ukay ukay</h2>
+                <p>67 hahahahhahaa.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="emo.png" alt="Emo era">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Party ni dorothy</h2>
+                <p>emo era heuheeue.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="aang.png" alt="Movie">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>Movie</h2>
+                <p>huehuhe nanood us ng new movie ni aang.</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="dis.png" alt="bahay ni meowmeow">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>bahay ni meowmeow</h2>
+                <p>look heueuehueh cutee 🌙</p>
+            </div>
+        </div>
+
+        <div class="mem-card">
+            <img src="69.jpg" alt="tambling">
+            <div class="overlay"></div>
+            <div class="text">
+                <h2>tambling</h2>
+                <p>hHAHAHAHAHAHAHA KAIN ****</p>
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+        #slideOverlay { position:fixed; inset:0; z-index:9999; pointer-events:none; transform:translateY(0); transition:transform .45s ease, opacity .35s; opacity:0; background:transparent }
+    </style>
+    <div id="slideOverlay" aria-hidden="true"></div>
+    <script>
+        (function(){
+            const threshold = 120;
+            let startY = null, deltaY = 0, dragging = false;
+            const overlay = document.getElementById('slideOverlay');
+            function onStart(e){ startY = e.touches ? e.touches[0].clientY : e.clientY; dragging = true; overlay.style.transition = 'none'; }
+            function onMove(e){ if(!dragging) return; const y = e.touches ? e.touches[0].clientY : e.clientY; deltaY = Math.max(0, y - startY); overlay.style.transform = `translateY(${deltaY}px)`; overlay.style.opacity = Math.min(1, deltaY / 300); overlay.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06))'; }
+            function onEnd(){ dragging = false; overlay.style.transition = 'transform .45s ease, opacity .35s'; if(deltaY > threshold){ overlay.style.transform = `translateY(100vh)`; overlay.style.opacity = 1; setTimeout(()=> location.href = 'suprise.html', 420); } else { overlay.style.transform = 'translateY(0)'; overlay.style.opacity = 0; } startY = null; deltaY = 0; }
+            ['touchstart','mousedown'].forEach(ev => window.addEventListener(ev, onStart, {passive:true}));
+            ['touchmove','mousemove'].forEach(ev => window.addEventListener(ev, onMove, {passive:true}));
+            ['touchend','mouseup','touchcancel','mouseleave'].forEach(ev => window.addEventListener(ev, onEnd));
+        })();
+    </script>
+
+</body>
+</html>

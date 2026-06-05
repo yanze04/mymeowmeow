@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MY LOVE Games & Memories</title>
+    <script>
+      const navEntries = performance.getEntriesByType('navigation');
+      const isReload = navEntries.length
+        ? navEntries[0].type === 'reload'
+        : (performance.navigation && performance.navigation.type === 1);
+      if (isReload && !window.location.href.includes('suprise.html')) {
+        window.location.href = 'suprise.html';
+      }
+    </script>
+    <style>
+        :root {
+            --bg: linear-gradient(135deg, #22023a 0%, #360a5f 37%, #c455c5 65%, #140022 100%);
+            --border: rgba(255, 255, 255, 0.22);
+            --text: #ffffff;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+
+        html, body {
+            min-height: 100vh;
+            background: var(--bg);
+            background-attachment: fixed;
+            color: var(--text);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;
+            padding: 16px 14px; z-index: 999;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25), 0 0 40px rgba(196,85,197,0.08);
+        }
+
+        .navbar a {
+            position: relative; color: white; text-decoration: none;
+            font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 600;
+            padding: 11px 20px; border-radius: 14px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+            transition: 0.35s ease; overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18); display: inline-block;
+        }
+
+        .navbar a::before {
+            content: ""; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: 0.5s;
+        }
+        .navbar a:hover::before { left: 100%; }
+        .navbar a:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.28), 0 0 25px rgba(255,182,230,0.25);
+        }
+
+        .hero {
+            width: 100%; min-height: 70vh;
+            display: flex; justify-content: center; align-items: center;
+            padding: 160px 20px 40px;
+        }
+
+        .carousel-glass-frame {
+            width: min(100%, 720px); padding: 24px;
+            background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+            border-radius: 40px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--shadow); position: relative; overflow: visible;
+        }
+
+        .video-box {
+            width: 100%; height: 380px; border-radius: 24px;
+            overflow: hidden; background: rgba(0,0,0,0.4); position: relative;
+        }
+
+        .slider-track {
+            display: flex; width: 400%; height: 100%;
+            transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .slide { width: 25%; height: 100%; position: relative; background: #000; }
+        .slide video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .slide-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3);
+            color: white; width: 50px; height: 50px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; z-index: 10; backdrop-filter: blur(10px);
+            transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .slide-btn:hover {
+            background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5);
+            transform: translateY(-50%) scale(1.1); box-shadow: 0 0 18px rgba(255,182,230,0.5);
+        }
+        .prev-btn { left: -25px; }
+        .next-btn { right: -25px; }
+
+        .slider-dots { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(255,255,255,0.3); transition: all 0.3s ease; cursor: pointer;
+        }
+        .dot.active {
+            background: #ffd8ff; width: 26px; border-radius: 6px;
+            box-shadow: 0 0 10px rgba(255,182,230,0.8);
+        }
+
+        .game-section {
+            width: 100%; max-width: 1200px; margin: 0 auto;
+            padding: 40px 20px 100px;
+            display: flex; flex-direction: column; align-items: center; gap: 40px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4.5vw, 3rem); letter-spacing: 0.12em;
+            text-transform: uppercase; color: #ffd8ff; font-weight: 700; text-align: center;
+            text-shadow: 0 12px 24px rgba(0,0,0,0.28), 0 0 20px rgba(255,182,230,0.25);
+        }
+
+        .games-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px; width: 100%; justify-items: center;
+        }
+
+        a.game-card { text-decoration: none; }
+
+        .game-card {
+            width: 100%; max-width: 320px;
+            background: rgba(255,255,255,0.08); border: 1px solid var(--border);
+            border-radius: 28px; padding: 36px 24px;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            display: flex; flex-direction: column; align-items: center;
+            text-align: center; gap: 18px; transition: 0.4s ease;
+            box-shadow: var(--shadow); position: relative; overflow: hidden; cursor: pointer;
+        }
+        .game-card::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(circle at top left, rgba(255,182,230,0.15), transparent 40%);
+            pointer-events: none;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 70px rgba(0,0,0,0.35), 0 0 30px rgba(255,182,230,0.18);
+        }
+
+        .play-badge {
+            display: flex; align-items: center; gap: 7px;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px; padding: 6px 14px;
+            font-size: 0.75rem; color: rgba(255,230,255,0.85); letter-spacing: 0.05em;
+        }
+        .play-badge svg { width: 16px; height: 16px; fill: rgba(255,230,255,0.85); flex-shrink: 0; }
+
+        .game-logo {
+            width: 120px; height: 120px; border-radius: 28px;
+            object-fit: cover; object-position: center;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: transform 0.4s ease;
+        }
+        .game-card:hover .game-logo { transform: scale(1.05) rotate(2deg); }
+
+        .game-title {
+            font-size: 24px; font-weight: bold; color: #ffd8ff;
+            text-shadow: 0 0 12px rgba(255,182,230,0.2); letter-spacing: 0.5px;
+        }
+        .game-desc { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.5; }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 10px; gap: 10px; }
+            .hero { padding-top: 140px; min-height: auto; }
+            .carousel-glass-frame { padding: 14px; width: calc(100% - 20px); }
+            .video-box { height: 300px; }
+            .slide-btn { width: 40px; height: 40px; font-size: 16px; }
+            .prev-btn { left: -15px; } .next-btn { right: -15px; }
+        }
+        @media (max-width: 480px) {
+            .navbar { padding: 10px 8px; gap: 8px; }
+            .navbar a { font-size: 0.78rem; padding: 9px 12px; border-radius: 12px; min-width: 70px; text-align: center; }
+            .hero { padding: 120px 10px 20px; }
+            .video-box { height: 220px; border-radius: 16px; }
+            .game-section { padding: 30px 14px 60px; }
+            .game-card { padding: 28px 20px; border-radius: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="memories.html">Memories</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="message.html">Message</a>
+        <a href="games.html">Games</a>
+    </div>
+
+    <section class="hero">
+        <div class="carousel-glass-frame">
+            <button class="slide-btn prev-btn" id="prevBtn" aria-label="Previous Slide">&#10094;</button>
+            <button class="slide-btn next-btn" id="nextBtn" aria-label="Next Slide">&#10095;</button>
+            <div class="video-box">
+                <div class="slider-track" id="sliderTrack">
+                    <div class="slide">
+                        <video class="slide-video" controls preload="metadata" loop playsinline>
+                            <source src="game.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="slide">
+                        <video class="slide-video" controls preload="metadata" loop playsinline>
+                            <source src="game2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="slide">
+                        <video class="slide-video" controls preload="metadata" loop playsinline>
+                            <source src="game3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="slide">
+                        <video class="slide-video" controls preload="metadata" loop playsinline>
+                            <source src="game4.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-dots">
+                <div class="dot active" data-index="0"></div>   
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+                <div class="dot" data-index="3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="game-section">
+        <h2 class="section-title">Our Game</h2>
+        <div class="games-grid">
+            <a class="game-card"
+               href="intent://details?id=com.xd.xdtglobal.gp#Intent;scheme=market;package=com.android.vending;end"
+               onclick="setTimeout(() => { window.location.href='https://play.google.com/store/apps/details?id=com.xd.xdtglobal.gp' }, 1500)">
+                <img src="topia.png" alt="Heartopia logo" class="game-logo">
+                <div class="game-title">Heartopia</div>
+                <div class="game-desc">Enter the memories world</div>
+                <div class="play-badge">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.18 23.76c.3.17.65.19.97.07l11.5-6.64-2.5-2.5-9.97 9.07zM.5 1.1C.19 1.44 0 1.96 0 2.64v18.72c0 .68.19 1.2.51 1.54l.08.08 10.49-10.49v-.25L.58 1.02.5 1.1zM20.32 10.5l-2.8-1.62-2.8 2.8 2.8 2.8 2.81-1.63c.8-.46.8-1.22-.01-1.35zM4.15.24L15.65 6.9l-2.5 2.5L3.18.31C3.5.19 3.85.21 4.15.24z"/>
+                    </svg>
+                    OPEN
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        const track = document.getElementById('sliderTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dots = document.querySelectorAll('.dot');
+        const videos = document.querySelectorAll('.slide-video');
+        let currentSlide = 0;
+        const totalSlides = 4;
+
+        function updateSlider(index) {
+            videos[currentSlide].pause();
+            currentSlide = index;
+            track.style.transform = `translateX(-${currentSlide * 25}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentSlide].classList.add('active');
+        }
+
+        nextBtn.addEventListener('click', () => updateSlider((currentSlide + 1) % totalSlides));
+        prevBtn.addEventListener('click', () => updateSlider((currentSlide - 1 + totalSlides) % totalSlides));
+        dots.forEach((dot, i) => dot.addEventListener('click', () => updateSlider(i)));
+    </script>
+
+    <style>
+        #slideOverlay { position:fixed; inset:0; z-index:9999; pointer-events:none; transform:translateY(0); transition:transform .45s ease, opacity .35s; opacity:0; background:transparent }
+    </style>
+    <div id="slideOverlay" aria-hidden="true"></div>
+    <script>
+        (function(){
+            const threshold = 120;
+            let startY = null, deltaY = 0, dragging = false;
+            const overlay = document.getElementById('slideOverlay');
+            function onStart(e){ startY = e.touches ? e.touches[0].clientY : e.clientY; dragging = true; overlay.style.transition = 'none'; }
+            function onMove(e){ if(!dragging) return; const y = e.touches ? e.touches[0].clientY : e.clientY; deltaY = Math.max(0, y - startY); overlay.style.transform = `translateY(${deltaY}px)`; overlay.style.opacity = Math.min(1, deltaY / 300); overlay.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06))'; }
+            function onEnd(){ dragging = false; overlay.style.transition = 'transform .45s ease, opacity .35s'; if(deltaY > threshold){ overlay.style.transform = `translateY(100vh)`; overlay.style.opacity = 1; setTimeout(()=> location.href = 'suprise.html', 420); } else { overlay.style.transform = 'translateY(0)'; overlay.style.opacity = 0; } startY = null; deltaY = 0; }
+            ['touchstart','mousedown'].forEach(ev => window.addEventListener(ev, onStart, {passive:true}));
+            ['touchmove','mousemove'].forEach(ev => window.addEventListener(ev, onMove, {passive:true}));
+            ['touchend','mouseup','touchcancel','mouseleave'].forEach(ev => window.addEventListener(ev, onEnd));
+        })();
+    </script>
+
+</body>
+</html>

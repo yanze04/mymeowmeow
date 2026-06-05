@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy 2nd Monthsarry 🤍</title>
+  <script>
+    const navEntries = performance.getEntriesByType('navigation');
+    const isReload = navEntries.length
+      ? navEntries[0].type === 'reload'
+      : (performance.navigation && performance.navigation.type === 1);
+    if (isReload && !window.location.href.includes('suprise.html')) {
+      window.location.href = 'suprise.html';
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #0d0010;
+      font-family: 'Lato', sans-serif;
+      cursor: pointer;
+    }
+
+    #scene {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── photo ── */
+    #bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0.68;
+      filter: saturate(1.15) brightness(0.82);
+      transition: opacity 0.4s;
+    }
+
+    /* ── gradient tint – keeps photo visible ── */
+    #gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        150deg,
+        rgba(255, 90, 140, 0.38) 0%,
+        rgba(180, 60, 210, 0.32) 45%,
+        rgba(70, 40, 170, 0.40) 100%
+      );
+      mix-blend-mode: soft-light;
+    }
+
+    /* ── vignette ── */
+    #vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(20, 5, 40, 0.70) 100%);
+    }
+
+    /* ── stars / sparkle layer ── */
+    #stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle var(--d) ease-in-out infinite var(--delay);
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.4); }
+      50%       { opacity: 0.85; transform: scale(1); }
+    }
+
+    /* ── floating hearts ── */
+    #hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 1.3rem;
+      opacity: 0;
+      animation: floatUp var(--d) ease-in infinite var(--delay);
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 0;    transform: translateY(0)      scale(0.5) rotate(var(--r)); }
+      12%  { opacity: 0.8; }
+      88%  { opacity: 0.4; }
+      100% { opacity: 0;    transform: translateY(-105vh) scale(1.1) rotate(calc(var(--r) * -1)); }
+    }
+
+    /* ── text content ── */
+    #content {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    #eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.65rem, 2vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255, 210, 230, 0.80);
+      margin-bottom: 0.85rem;
+      animation: riseIn 1s cubic-bezier(.22,.68,0,1.2) both;
+      animation-delay: 0.3s;
+    }
+
+    #main-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 9vw, 4.5rem);
+      line-height: 1.1;
+      color: #fff;
+      text-shadow:
+        0 0 40px rgba(255, 120, 180, 0.55),
+        0 2px 6px rgba(0,0,0,0.55);
+      animation: riseIn 1.1s cubic-bezier(.22,.68,0,1.2) both;
+      animation-delay: 0.55s;
+      margin-bottom: 0.5rem;
+    }
+
+    #sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3.5vw, 1.25rem);
+      color: rgba(255, 220, 238, 0.88);
+      text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+      animation: riseIn 1.1s cubic-bezier(.22,.68,0,1.2) both;
+      animation-delay: 0.8s;
+      margin-bottom: 1.6rem;
+    }
+
+    #divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,180,210,0.7), transparent);
+      margin: 0 auto 1.6rem;
+      animation: fadeIn 1s ease both;
+      animation-delay: 1s;
+    }
+
+    #message {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+      color: rgba(255, 230, 242, 0.85);
+      letter-spacing: 0.04em;
+      line-height: 1.75;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+      animation: riseIn 1s ease both;
+      animation-delay: 1.05s;
+      margin-bottom: 2.5rem;
+    }
+
+    #tap-hint {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 200, 225, 0.55);
+      animation: riseIn 1s ease both, blink 2.5s ease-in-out 2s infinite;
+      animation-delay: 1.5s, 2.5s;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 0.75; }
+    }
+
+    /* ── tap flash ── */
+    #flash {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      transition: opacity 0.06s ease;
+    }
+    #flash.go { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div id="scene" onclick="tapSurprise()">
+
+  <img id="bg-img" src="yonaa.jpg" alt="Yona and cat"
+       onerror="this.style.display='none'" />
+
+  <div id="gradient-overlay"></div>
+  <div id="vignette"></div>
+  <div id="stars"></div>
+  <div id="hearts"></div>
+
+  <div id="content">
+    <div id="eyebrow">✦ &nbsp; 1st monthsarry &nbsp; ✦</div>
+    <div id="main-title">Happy 1st<br>Monthsarry</div>
+    <div id="sub">my yona, meowmeoow, lovee 🤍</div>
+    <div id="divider"></div>
+    <div id="message">
+      Two months with you and your little meow<br>
+      and it already feels like forever. 🐱
+    </div>
+    <div id="tap-hint">tap anywhere for your surprise ♡</div>
+  </div>
+
+</div>
+
+<div id="flash"></div>
+
+<script>
+  /* ── stars ── */
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 55; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = 1 + Math.random() * 2.5;
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --d:${2 + Math.random()*4}s;
+      --delay:-${Math.random()*5}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  /* ── hearts ── */
+  const heartsEl = document.getElementById('hearts');
+  const glyphs = ['🤍','💗','💕','🩷','💓','💖','🫶','✨'];
+
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart';
+    const dur = 5 + Math.random() * 5;
+    const delay = Math.random() * 1.5;
+    const rot = (Math.random() * 30 - 15) + 'deg';
+    h.style.cssText = `
+      left:${5 + Math.random()*90}%;
+      font-size:${0.8 + Math.random()*0.9}rem;
+      --d:${dur}s; --delay:${delay}s; --r:${rot};
+    `;
+    h.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+    heartsEl.appendChild(h);
+    setTimeout(() => h.remove(), (dur + delay + 0.5) * 1000);
+  }
+
+  for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 400);
+  setInterval(spawnHeart, 650);
+
+  /* ── tap to go to memories.html */
+  function tapSurprise() {
+    const flash = document.getElementById('flash');
+    flash.classList.add('go');
+    setTimeout(() => { window.location.href = 'memories.html'; }, 150);
+  }
+</script>
+</body>
+</html>

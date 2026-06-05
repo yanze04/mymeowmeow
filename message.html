@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MY LOVE Message</title>
+    <script>
+      const navEntries = performance.getEntriesByType('navigation');
+      const isReload = navEntries.length
+        ? navEntries[0].type === 'reload'
+        : (performance.navigation && performance.navigation.type === 1);
+      if (isReload && !window.location.href.includes('suprise.html')) {
+        window.location.href = 'suprise.html';
+      }
+    </script>
+
+    <style>
+
+        :root {
+
+            --bg: linear-gradient(
+                135deg,
+                #22023a 0%,
+                #360a5f 37%,
+                #c455c5 65%,
+                #140022 100%
+            );
+
+            --panel: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.22);
+            --text: #ffffff;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            min-height: 100%;
+
+            font-family: Arial, sans-serif;
+
+            color: var(--text);
+
+            background: var(--bg);
+
+            background-attachment: fixed;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: flex-start;
+
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           DREAMY GLASS NAVBAR
+        ========================== */
+
+        .navbar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            padding: 16px 14px;
+
+            z-index: 999;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.25),
+                0 0 40px rgba(196, 85, 197, 0.08);
+        }
+
+        /* NAV BUTTONS */
+
+        .navbar a {
+
+            position: relative;
+
+            color: white;
+            text-decoration: none;
+
+            font-size: clamp(0.85rem, 2vw, 1rem);
+
+            font-weight: 600;
+
+            padding: 11px 20px;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+
+            transition: 0.35s ease;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        /* GLOW EFFECT */
+
+        .navbar a::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 100%;
+            height: 100%;
+
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.25),
+                transparent
+            );
+
+            transition: 0.5s;
+        }
+
+        .navbar a:hover::before {
+            left: 100%;
+        }
+
+        /* HOVER */
+
+        .navbar a:hover {
+
+            transform:
+                translateY(-4px)
+                scale(1.03);
+
+            background: rgba(255, 255, 255, 0.16);
+
+            border-color: rgba(255, 255, 255, 0.3);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.28),
+                0 0 25px rgba(255, 182, 230, 0.25);
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================== */
+
+        .container {
+
+            text-align: center;
+
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+
+            padding: 140px 20px 40px;
+
+            width: min(100%, 960px);
+
+            margin: 0 auto;
+
+            min-height: 100vh;
+        }
+
+        .container h1 {
+
+            margin: 0 0 25px;
+
+            font-size: clamp(2rem, 5vw, 4rem);
+
+            letter-spacing: 0.12em;
+
+            text-transform: uppercase;
+
+            color: #ffd8ff;
+
+            text-shadow:
+                0 12px 24px rgba(0, 0, 0, 0.28),
+                0 0 20px rgba(255, 182, 230, 0.25);
+
+            font-weight: 700;
+        }
+
+        /* =========================
+           MESSAGE BOX
+        ========================== */
+
+        .message-box {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+
+            border-radius: 28px;
+
+            padding: 36px 34px;
+
+            min-height: 220px;
+
+            width: 100%;
+            max-width: 720px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(12px);
+
+            transition: 0.4s ease;
+        }
+
+        .message-box:hover {
+
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 24px 70px rgba(0, 0, 0, 0.35),
+                0 0 30px rgba(255, 182, 230, 0.18);
+        }
+
+        .message-box::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(255, 182, 230, 0.15),
+                    transparent 40%
+                );
+
+            pointer-events: none;
+        }
+
+        /* =========================
+           TYPEWRITER
+        ========================== */
+
+        .typewriter {
+
+            position: relative;
+
+            font-family:
+                "Courier New",
+                Courier,
+                monospace;
+
+            font-size:
+                clamp(1.1rem, 2.4vw, 1.6rem);
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+
+            z-index: 1;
+
+            display: inline;
+
+            text-shadow:
+                0 0 12px rgba(255, 182, 230, 0.2);
+        }
+
+        .cursor {
+
+            display: inline-block;
+
+            width: 0.12em;
+
+            background: white;
+
+            margin-left: 4px;
+
+            animation:
+                blink 1s steps(1) infinite;
+
+            vertical-align: bottom;
+
+            height: 1.15em;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* =========================
+           MOBILE RESPONSIVE
+        ========================== */
+
+        @media (max-width: 768px) {
+
+            .navbar {
+
+                padding: 12px 10px;
+
+                gap: 10px;
+            }
+
+            .container {
+
+                padding-top: 130px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .navbar {
+
+                padding: 10px 8px;
+
+                gap: 8px;
+
+                justify-content: center;
+            }
+
+            .navbar a {
+
+                font-size: 0.78rem;
+
+                padding: 9px 12px;
+
+                border-radius: 12px;
+
+                min-width: 70px;
+
+                text-align: center;
+            }
+
+            .container {
+
+                padding:
+                    120px 14px 30px;
+            }
+
+            .container h1 {
+
+                font-size: 2rem;
+            }
+
+            .message-box {
+
+                padding: 26px 20px;
+
+                border-radius: 22px;
+            }
+
+            .typewriter {
+
+                font-size: 1rem;
+
+                line-height: 1.6;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <a href="memories.html">Memories</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="message.html">Message</a>
+        <a href="games.html">Games</a>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <h1>Message</h1>
+
+        <div class="message-box">
+
+            <div
+                class="typewriter"
+                id="typewriter">
+            </div>
+
+            <span class="cursor"></span>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const text =
+`To my meowmeoow...
+
+Thank you for being part of my life.
+Thank you for every laugh,
+every memory,
+and every moment we made together.
+
+Super happy ako na nakilala kita my meowmeoow, love na loveee kitaaa, Remember my meowmeoow,
+Happy 1st monthsary po my meoowmeooow, wag ka sana mag sawa sa pang aasar ko kekeekkee, I promise to always be here for you, to support you, and to love you with all my heart.
+ikaw pipiliin ko araw-araw, month-month, year-year, and for the rest of my life. I love you so much, my meowmeoow. Happy 1st monthsary again, and cheers to many more months and years of love and happiness together.
+
+
+This little website
+is a place where our memories stay forever ❤️`;
+
+        const output =
+            document.getElementById('typewriter');
+
+        let index = 0;
+
+        function typeWriter() {
+
+            output.textContent =
+                text.slice(0, index);
+
+            if (index <= text.length) {
+
+                index++;
+
+                setTimeout(typeWriter, 45);
+
+            }
+        }
+
+        window.addEventListener(
+            'DOMContentLoaded',
+            () => {
+
+                setTimeout(typeWriter, 500);
+            }
+        );
+
+    </script>
+
+</body>
+</html>
+
+        <!-- Swipe-down transition: swipe down to go to suprise.html -->
+        <style>
+            #slideOverlay{position:fixed;inset:0;z-index:9999;pointer-events:none;transform:translateY(0);transition:transform .45s ease, opacity .35s;opacity:0;background:transparent}
+        </style>
+        <div id="slideOverlay" aria-hidden="true"></div>
+        <script>
+        (function(){
+            const threshold = 120;
+            let startY = null, deltaY = 0, dragging = false;
+            const overlay = document.getElementById('slideOverlay');
+
+            function onStart(e){ startY = e.touches ? e.touches[0].clientY : e.clientY; dragging = true; overlay.style.transition = 'none'; }
+            function onMove(e){ if(!dragging) return; const y = e.touches ? e.touches[0].clientY : e.clientY; deltaY = Math.max(0, y - startY); overlay.style.transform = `translateY(${deltaY}px)`; overlay.style.opacity = Math.min(1, deltaY / 300); overlay.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06))'; }
+            function onEnd(){ dragging = false; overlay.style.transition = 'transform .45s ease, opacity .35s'; if(deltaY > threshold){ overlay.style.transform = `translateY(100vh)`; overlay.style.opacity = 1; setTimeout(()=> location.href = 'suprise.html', 420); } else { overlay.style.transform = 'translateY(0)'; overlay.style.opacity = 0; } startY = null; deltaY = 0; }
+
+            ['touchstart','mousedown'].forEach(ev => window.addEventListener(ev, onStart, {passive:true}));
+            ['touchmove','mousemove'].forEach(ev => window.addEventListener(ev, onMove, {passive:true}));
+            ['touchend','mouseup','touchcancel','mouseleave'].forEach(ev => window.addEventListener(ev, onEnd));
+        })();
+        </script>

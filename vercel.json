@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/suprise.html" },
+    { "source": "/(.*)", "destination": "/$1" }
+  ]
+}
