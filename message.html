@@ -286,8 +286,10 @@
                 Courier,
                 monospace;
 
+            font-weight: 700;
+
             font-size:
-                clamp(1.1rem, 2.4vw, 1.6rem);
+                clamp(1.1rem, 2.8vw, 1.8rem);
 
             line-height: 1.7;
 
@@ -351,32 +353,33 @@
         }
 
         @media (max-width: 600px) {
-            .navbar { padding: 10px 8px; gap: 7px; }
+            .navbar { padding: 10px 8px; gap: 7px; justify-content: center; }
             .navbar a { 
                 font-size: 0.78rem; 
                 padding: 8px 12px;
                 border-radius: 10px;
                 flex: 1 1 calc(50% - 7px);
+                min-width: 140px;
             }
             .container { padding-top: 110px; }
         }
 
         @media (max-width: 480px) {
-            .navbar { padding: 9px 6px; gap: 6px; }
-            .navbar a { font-size: 0.75rem; padding: 7px 10px; border-radius: 8px; flex: 1 1 calc(50% - 6px); }
+            .navbar { padding: 9px 6px; gap: 6px; justify-content: center; }
+            .navbar a { font-size: 0.75rem; padding: 7px 10px; border-radius: 8px; flex: 1 1 calc(50% - 6px); min-width: 120px; }
             .container { padding: 110px 12px 25px; }
             .container h1 { font-size: clamp(1.4rem, 2.5vw, 2rem); }
             .message-box { padding: 22px 16px; border-radius: 18px; }
-            .typewriter { font-size: 0.95rem; line-height: 1.5; }
+            .typewriter { font-size: 1rem; line-height: 1.6; }
         }
 
         @media (max-width: 360px) {
             .navbar { padding: 8px 4px; gap: 4px; }
-            .navbar a { font-size: 0.7rem; padding: 6px 8px; border-radius: 6px; }
+            .navbar a { font-size: 0.7rem; padding: 6px 8px; border-radius: 6px; flex: 1 1 100%; }
             .container { padding: 100px 10px 20px; }
             .container h1 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
             .message-box { padding: 20px 14px; border-radius: 16px; }
-            .typewriter { font-size: 0.9rem; line-height: 1.4; }
+            .typewriter { font-size: 1rem; line-height: 1.6; }
         }
 
     </style>
@@ -417,20 +420,16 @@
     <script>
 
         const text =
-`To my meowmeoow...
+`To my dearest love,
 
-Thank you for being part of my life.
-Thank you for every laugh,
-every memory,
-and every moment we made together.
+Every day with you feels like a dream I never want to wake from.
+Thank you for your kindness, your laughter, and the way you make every moment brighter.
 
-Super happy ako na nakilala kita my meowmeoow, love na loveee kitaaa, Remember my meowmeoow,
-Happy 1st monthsary po my meoowmeooow, wag ka sana mag sawa sa pang aasar ko kekeekkee, I promise to always be here for you, to support you, and to love you with all my heart.
-ikaw pipiliin ko araw-araw, month-month, year-year, and for the rest of my life. I love you so much, my meowmeoow. Happy 1st monthsary again, and cheers to many more months and years of love and happiness together.
+Happy 1st monthsary, my heart. I promise to always be by your side,
+to support you, to care for you, and to love you more each day.
 
-
-This little website
-is a place where our memories stay forever ❤️`;
+This little page is a small gift for us — a place where our memories are kept safe
+and our story can live on forever. ❤️`;
 
         const output =
             document.getElementById('typewriter');
