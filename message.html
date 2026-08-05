@@ -18,18 +18,13 @@
 
         :root {
 
-            --bg: linear-gradient(
-                135deg,
-                #22023a 0%,
-                #360a5f 37%,
-                #c455c5 65%,
-                #140022 100%
-            );
+            --bg: #0a0a0a;
 
-            --panel: rgba(255, 255, 255, 0.08);
-            --border: rgba(255, 255, 255, 0.22);
+            --panel: rgba(255, 105, 180, 0.08);
+            --border: rgba(255, 105, 180, 0.25);
             --text: #ffffff;
-            --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+            --accent: #ff69b4;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -62,7 +57,7 @@
         }
 
         /* =========================
-           DREAMY GLASS NAVBAR
+           NAVBAR
         ========================== */
 
         .navbar {
@@ -84,16 +79,15 @@
 
             z-index: 999;
 
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(10, 10, 10, 0.85);
 
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            border-bottom: 1px solid var(--border);
 
             box-shadow:
-                0 8px 30px rgba(0, 0, 0, 0.25),
-                0 0 40px rgba(196, 85, 197, 0.08);
+                0 8px 30px rgba(0, 0, 0, 0.4);
         }
 
         /* NAV BUTTONS */
@@ -113,16 +107,16 @@
 
             border-radius: 14px;
 
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 105, 180, 0.06);
 
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid var(--border);
 
             transition: 0.35s ease;
 
             overflow: hidden;
 
             box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.18);
+                0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* GLOW EFFECT */
@@ -142,7 +136,7 @@
             background: linear-gradient(
                 120deg,
                 transparent,
-                rgba(255, 255, 255, 0.25),
+                rgba(255, 105, 180, 0.25),
                 transparent
             );
 
@@ -161,13 +155,13 @@
                 translateY(-4px)
                 scale(1.03);
 
-            background: rgba(255, 255, 255, 0.16);
+            background: rgba(255, 105, 180, 0.14);
 
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 105, 180, 0.4);
 
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.28),
-                0 0 25px rgba(255, 182, 230, 0.25);
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 0 25px rgba(255, 105, 180, 0.25);
         }
 
         /* =========================
@@ -207,11 +201,11 @@
 
             text-transform: uppercase;
 
-            color: #ffd8ff;
+            color: var(--accent);
 
             text-shadow:
-                0 12px 24px rgba(0, 0, 0, 0.28),
-                0 0 20px rgba(255, 182, 230, 0.25);
+                0 12px 24px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(255, 105, 180, 0.3);
 
             font-weight: 700;
         }
@@ -222,9 +216,9 @@
 
         .message-box {
 
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 105, 180, 0.06);
 
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid var(--border);
 
             border-radius: 28px;
 
@@ -251,8 +245,8 @@
             transform: translateY(-6px);
 
             box-shadow:
-                0 24px 70px rgba(0, 0, 0, 0.35),
-                0 0 30px rgba(255, 182, 230, 0.18);
+                0 24px 70px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(255, 105, 180, 0.2);
         }
 
         .message-box::before {
@@ -266,7 +260,7 @@
             background:
                 radial-gradient(
                     circle at top left,
-                    rgba(255, 182, 230, 0.15),
+                    rgba(255, 105, 180, 0.1),
                     transparent 40%
                 );
 
@@ -300,7 +294,7 @@
             display: inline;
 
             text-shadow:
-                0 0 12px rgba(255, 182, 230, 0.2);
+                0 0 12px rgba(255, 105, 180, 0.2);
         }
 
         .cursor {
@@ -309,7 +303,7 @@
 
             width: 0.12em;
 
-            background: white;
+            background: var(--accent);
 
             margin-left: 4px;
 
@@ -398,6 +392,34 @@
 
     </div>
 
+    <!-- Background audio (place the MP3 in the same folder as this HTML file) -->
+    <audio id="bg-audio" autoplay loop>
+        <source src="December Avenue - Kung ‘Di Rin Lang Ikaw (feat. Moira Dela Torre) Lyrics.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Mute/unmute toggle -->
+    <button id="audio-toggle" title="Toggle background music" style="position:fixed;right:16px;bottom:16px;padding:10px 12px;border-radius:12px;border:none;background:rgba(255,105,180,0.1);color:#fff;backdrop-filter:blur(8px);">🔊</button>
+
+    <script>
+        const audio = document.getElementById('bg-audio');
+        const btn = document.getElementById('audio-toggle');
+        btn.addEventListener('click', () => {
+            if (audio.muted || audio.paused) {
+                audio.muted = false;
+                audio.play().catch(()=>{});
+                btn.textContent = '🔊';
+            } else {
+                audio.muted = true;
+                btn.textContent = '🔈';
+            }
+        });
+        // Remember preference in localStorage
+        const pref = localStorage.getItem('bg-audio-muted');
+        if (pref === 'true') { audio.muted = true; btn.textContent = '🔈'; }
+        window.addEventListener('beforeunload', () => localStorage.setItem('bg-audio-muted', audio.muted));
+    </script>
+
     <!-- MAIN -->
 
     <div class="container">
@@ -420,16 +442,10 @@
     <script>
 
         const text =
-`To my meowmeoow...
+`To my meowmeoow
 
-Thank you for being part of my life.
-Thank you for every laugh,
-every memory,
-and every moment we made together.
-
-Super happy ako na nakilala kita my meowmeoow, love na loveee kitaaa, Remember my meowmeoow,
-Happy 1st monthsary po my meoowmeooow, wag ka sana mag sawa sa pang aasar ko kekeekkee, I promise to always be here for you, to support you, and to love you with all my heart.
-ikaw pipiliin ko araw-araw, month-month, year-year, and for the rest of my life. I love you so much, my meowmeoow. Happy 1st monthsary again, and cheers to many more months and years of love and happiness together.
+Time flies so fast, and I can't believe how lucky I am to have you in my life. You are my everything, and I cherish every moment we spend together.
+thank you for understanding me, supporting me, and loving me, kahit minsan may misunderstanding tayo at away, pero kahit na ganon ikaw pa din pipiliin ko araw-araw and I can't wait to create more beautiful memories with you.
 
 
 This little website
