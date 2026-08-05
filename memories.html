@@ -18,6 +18,34 @@
 
   * { box-sizing: border-box; }
 
+  /* Simple top navigation */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    z-index: 999;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px);
+  }
+
+  .navbar a {
+    color: var(--plum);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: 0.25s ease;
+  }
+
+  .navbar a:hover { transform: translateY(-2px); background: rgba(255,255,255,0.05); }
+
   body {
     margin: 0;
     background: linear-gradient(180deg, var(--cream) 0%, var(--blush) 100%);
@@ -194,6 +222,10 @@
 </style>
 </head>
 <body>
+
+<div class="navbar">
+  <a href="1st.html">HOME</a>
+</div>
 
 <header>
   <h1>Every Little Moment</h1>
