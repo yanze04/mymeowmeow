@@ -1,448 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY LOVE - Montessori View</title>
-    <script>
-      const navEntries = performance.getEntriesByType('navigation');
-      const isReload = navEntries.length
-        ? navEntries[0].type === 'reload'
-        : (performance.navigation && performance.navigation.type === 1);
-      if (isReload && !window.location.href.includes('suprise.html')) {
-        window.location.href = 'suprise.html';
-      }
-    </script>
-    <style>
-        html {
-            box-sizing: border-box;
-        }
-        *, *::before, *::after {
-            box-sizing: inherit;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Memories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #1a1015;
+    --blush: #0d0709;
+    --plum: #ff5c8d;
+    --rose: #ff8fb3;
+    --gold: #ff2e63;
+    --paper: #201319;
+  }
 
-        body {
-            background: linear-gradient(135deg, rgba(184, 51, 106, 0.8) 0%, rgba(139, 30, 71, 0.7) 50%, rgba(200, 66, 124, 0.8) 100%),
-                        url("yona.jpg") no-repeat center center / cover;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            overflow-x: hidden;
-        }
-        
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 16px 14px;
-            z-index: 999;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow:
-                0 8px 30px rgba(0, 0, 0, 0.25),
-                0 0 40px rgba(196, 85, 197, 0.08);
-        }
-        
-        .navbar a {
-            position: relative;
-            color: white;
-            text-decoration: none;
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            font-weight: 600;
-            padding: 11px 20px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            transition: 0.35s ease;
-            overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-            display: inline-block;
-        }
+  * { box-sizing: border-box; }
 
-        .navbar a::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                transparent,
-                rgba(255, 255, 255, 0.25),
-                transparent
-            );
-            transition: 0.5s;
-        }
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--blush) 100%);
+    font-family: 'Quicksand', sans-serif;
+    color: var(--plum);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-        .navbar a:hover::before {
-            left: 100%;
-        }
-        
-        .navbar a:hover {
-            transform: translateY(-4px) scale(1.03);
-            background: rgba(255, 255, 255, 0.16);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.28),
-                0 0 25px rgba(255, 182, 230, 0.25);
-        }
-        
-        .container {
-            text-align: center;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 140px 20px 40px;
-            width: min(100%, 1200px);
-            margin: 0 auto;
-            min-height: calc(100vh - 88px);
-        }
-        
-        h1 {
-            color: white;
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 2px;
-            font-weight: 700;
-            position: relative;
-            z-index: 10;
-            line-height: 1.1;
-            max-width: 100%;
-        }
+  /* Floating hearts background */
+  .heart {
+    position: fixed;
+    top: -10%;
+    font-size: 20px;
+    color: var(--rose);
+    opacity: 0.35;
+    pointer-events: none;
+    animation: floatUp linear infinite;
+    z-index: 0;
+  }
 
-        .typewriter-text {
-            font-family: "Courier New", Courier, monospace;
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 0.16em solid rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.1em;
-            animation: blink-cursor 0.7s step-end infinite;
-            min-height: 1.2em;
-        }
+  @keyframes floatUp {
+    from { transform: translateY(0) rotate(0deg); }
+    to { transform: translateY(-120vh) rotate(360deg); }
+  }
 
-        @keyframes blink-cursor {
-            from { border-right-color: rgba(255, 255, 255, 0.9); }
-            to { border-right-color: transparent; }
-        }
+  header {
+    text-align: center;
+    padding: 60px 20px 30px;
+    position: relative;
+    z-index: 1;
+  }
 
-        #flowerCanvas {
-            background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for better text readability */
-            box-shadow: 0 0 25px rgba(255, 101, 163, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            margin: 25px 0;
-            z-index: 10;
-            position: relative;
-            max-width: 100%;
-            height: auto;
-        }
+  header h1 {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    color: var(--plum);
+    margin: 0;
+    line-height: 1;
+  }
 
-        .floating-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+  header p {
+    font-size: 1rem;
+    color: var(--rose);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
 
-        .pixel-element {
-            position: absolute;
-            font-size: 2em;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(255, 105, 180, 0.6));
-            animation: float-up 8s infinite linear;
-        }
+  .album {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 30px 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px 30px;
+    position: relative;
+    z-index: 1;
+  }
 
-        @keyframes float-up {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
+  .polaroid {
+    background: var(--paper);
+    padding: 14px 14px 46px;
+    box-shadow: 0 8px 20px rgba(255, 46, 99, 0.25);
+    width: 240px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
 
-        .pixel-element.sway {
-            animation: float-up-sway 8s infinite linear;
-        }
+  .polaroid:nth-child(odd)  { transform: rotate(-4deg); }
+  .polaroid:nth-child(even) { transform: rotate(3deg); }
+  .polaroid:nth-child(3n)   { transform: rotate(-2deg); }
 
-        @keyframes float-up-sway {
-            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            50% { transform: translateY(50vh) translateX(50px) rotate(180deg); }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-100px) translateX(-30px) rotate(360deg); opacity: 0; }
-        }
+  .polaroid:hover {
+    transform: scale(1.06) rotate(0deg) !important;
+    box-shadow: 0 14px 30px rgba(255, 46, 99, 0.4);
+    z-index: 5;
+  }
 
-        @media (max-width: 768px) {
-            .navbar { padding: 10px 8px; gap: 8px; }
-            .pixel-element { font-size: 1.5rem; }
-            #flowerCanvas { width: 95vw; height: calc(95vw * 0.75); }
-        }
+  .polaroid img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    background: var(--blush);
+  }
 
-        @media (max-width: 480px) {
-            .navbar { padding: 8px 6px; gap: 6px; justify-content: space-around; }
-            .navbar a {
-                font-size: clamp(0.75rem, 2vw, 0.95rem);
-                padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2vw, 14px);
-                flex: 1 1 auto;
-                text-align: center;
-                min-width: 65px;
-            }
-            .container { padding: 0 12px 30px; min-height: calc(100vh - 70px); }
-            .pixel-element { font-size: 1.2rem; }
-        }
-    </style>
+  .tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 70px;
+    height: 24px;
+    background: rgba(212, 165, 116, 0.55);
+    border: 1px solid rgba(212, 165, 116, 0.7);
+  }
+
+  .caption {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    text-align: center;
+    margin-top: 10px;
+    color: var(--plum);
+  }
+
+  .date {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.7rem;
+    text-align: center;
+    color: var(--rose);
+    letter-spacing: 0.05em;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-width: min(90vw, 600px);
+    max-height: 65vh;
+    object-fit: contain;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+
+  .lightbox-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: var(--cream);
+    margin-top: 20px;
+    text-align: center;
+    max-width: 500px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-size: 2rem;
+    color: var(--cream);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  footer {
+    text-align: center;
+    padding-bottom: 50px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--rose);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .heart { animation: none; display: none; }
+  }
+</style>
 </head>
 <body>
-    <div class="floating-container" id="floatingContainer"></div>
-    
-    <div class="navbar">
-        <a href="memories.html">Memories</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="message.html">Message</a>
-        <a href="games.html">Games</a>
-    </div>
 
-    <div class="container" id="memories">
-        <h1><span class="typewriter-text" data-text="MEOWMEOOW, LOVEY, YONA❤️"></span></h1>
-        
-        <canvas id="flowerCanvas" width="850" height="550"></canvas>
-    </div>
+<header>
+  <h1>Every Little Moment</h1>
+  <p>a small album of us</p>
+</header>
 
-    <script>
-        
-        const elements = ['🌸', '❤️', '🌹', '💕', '🌺', '✨', '💖', '🌼'];
-        
-        function createFloatingElement() {
-            const container = document.getElementById('floatingContainer');
-            if(!container) return;
-            const element = document.createElement('div');
-            const randomElement = elements[Math.floor(Math.random() * elements.length)];
-            const randomX = Math.random() * window.innerWidth;
-            const randomDelay = Math.random() * 2;
-            const sway = Math.random() > 0.5;
-            
-            element.className = `pixel-element ${sway ? 'sway' : ''}`;
-            element.textContent = randomElement;
-            element.style.left = randomX + 'px';
-            element.style.animationDelay = randomDelay + 's';
-            
-            const colors = [
-                'rgba(255, 105, 180, 0.8)',  
-                'rgba(255, 182, 193, 0.8)',  
-                'rgba(220, 20, 60, 0.8)',    
-                'rgba(255, 20, 147, 0.8)',   
-                'rgba(255, 192, 203, 0.8)'  
-            ];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            element.style.filter = `drop-shadow(0 0 15px ${randomColor}) drop-shadow(0 0 25px rgba(255, 255, 255, 0.6))`;
-            
-            container.appendChild(element);
-            
-            setTimeout(() => {
-                element.remove();
-            }, 8000 + randomDelay * 1000);
-        }
-        
-        setInterval(createFloatingElement, 500);
-        for (let i = 0; i < 5; i++) {
-            setTimeout(createFloatingElement, i * 200);
-        }
+<div class="album" id="album"></div>
 
-     
-        const typewriterText = document.querySelector('.typewriter-text');
-        const typewriterFullText = typewriterText ? typewriterText.dataset.text : '';
-        let typewriterIndex = 0;
+<footer>tap a photo to relive it 🤍</footer>
 
-        function typeWriter() {
-            if (!typewriterText) return;
-            typewriterText.textContent = typewriterFullText.slice(0, typewriterIndex);
+<div class="lightbox" id="lightbox">
+  <button class="close-btn" onclick="closeLightbox()">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
 
-            if (typewriterIndex < typewriterFullText.length) {
-                typewriterIndex += 1;
-                setTimeout(typeWriter, 100);
-            } else {
-                setTimeout(resetTypewriter, 2000);
-            }
-        }
+<script>
 
-        function resetTypewriter() {
-            typewriterIndex = 0;
-            typewriterText.textContent = '';
-            setTimeout(typeWriter, 150);
-        }
+  const memories = [
+    { src: "photo1.jpg", caption: "goofing around", date: "" },
+    { src: "photo2.jpg", caption: "our little moon moment", date: "" },
+    { src: "photo3.png", caption: "talent sculptor era", date: "" },
+    { src: "photo4.png", caption: "fireflies and swings", date: "" },
+  ];
 
-   
-        const canvas = document.getElementById('flowerCanvas');
-        const ctx = canvas.getContext('2d');
+  const album = document.getElementById('album');
 
-        const CANVAS_CENTER_X = canvas.width / 2;
-        const CANVAS_CENTER_Y = canvas.height / 2;
-        const IMAGE_ENLARGE = 180; // Enlarged so petals cradle the text beautifully
-        const NUM_POINTS = 3500;   // Increased particle count for better background density
-        const NUM_CORE_POINTS = 400;
+  memories.forEach((mem) => {
+    const card = document.createElement('div');
+    card.className = 'polaroid';
+    card.innerHTML = `
+      <div class="tape"></div>
+      <img src="${mem.src}" alt="${mem.caption}"
+           onerror="this.src='https://placehold.co/240x240/1a1015/ff5c8d?text=add+photo'">
+      <div class="caption">${mem.caption}</div>
+      <div class="date">${mem.date}</div>
+    `;
+    card.addEventListener('click', () => openLightbox(mem));
+    album.appendChild(card);
+  });
 
-        const PETAL_COLOR = "#ff65a3";
-        const OUTER_GLOW_COLOR = "#ff2151";
-        const FLOWER_CORE_COLOR = "#ffd700";
+  function openLightbox(mem) {
+    document.getElementById('lightbox-img').src = mem.src;
+    document.getElementById('lightbox-caption').textContent = mem.caption;
+    document.getElementById('lightbox').classList.add('active');
+  }
 
-        const petalPoints = [];
-        const corePoints = [];
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
 
-        function randomUniform(min, max) {
-            return Math.random() * (max - min) + min;
-        }
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') closeLightbox();
+  });
 
-        function randomChoice(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
-        }
+  // Floating hearts
+  const heartsContainer = document.body;
+  const heartSymbols = ['💕', '🤍', '✨'];
+  for (let i = 0; i < 12; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+    heart.style.animationDelay = (Math.random() * 10) + 's';
+    heart.style.fontSize = (14 + Math.random() * 14) + 'px';
+    heartsContainer.appendChild(heart);
+  }
+</script>
 
-        function flowerFunction(t) {
-            let r = Math.cos(6 * t); 
-            let x = r * Math.cos(t) * IMAGE_ENLARGE + CANVAS_CENTER_X;
-            let y = r * Math.sin(t) * IMAGE_ENLARGE + CANVAS_CENTER_Y;
-            return { x: x, y: y, angle: t };
-        }
-
-        function buildFlower() {
-            for (let i = 0; i < NUM_POINTS; i++) {
-                let t = randomUniform(0, 2 * Math.PI);
-                petalPoints.push(flowerFunction(t));
-            }
-            for (let i = 0; i < NUM_CORE_POINTS; i++) {
-                let t = randomUniform(0, 2 * Math.PI);
-                // Shift core ring outward slightly so it loops directly around the wording
-                let r = randomUniform(0.18, 0.28) * IMAGE_ENLARGE;
-                let x = r * Math.cos(t) + CANVAS_CENTER_X;
-                let y = r * Math.sin(t) + CANVAS_CENTER_Y;
-                corePoints.push({ x: x, y: y, angle: t });
-            }
-        }
-
-        // Helper function to safely wrap paragraph lines on a canvas window block
-        function wrapText(context, text, x, y, maxWidth, lineHeight) {
-            const words = text.split(' ');
-            let line = '';
-            let lines = [];
-
-            for (let n = 0; n < words.length; n++) {
-                let testLine = line + words[n] + ' ';
-                let metrics = context.measureText(testLine);
-                let testWidth = metrics.width;
-                if (testWidth > maxWidth && n > 0) {
-                    lines.push(line);
-                    line = words[n] + ' ';
-                } else {
-                    line = testLine;
-                }
-            }
-            lines.push(line);
-
-            // Shift starting Y coordinate up relative to total lines to keep blocks dead-center
-            let startY = y - ((lines.length - 1) * lineHeight) / 2;
-            for (let k = 0; k < lines.length; k++) {
-                context.fillText(lines[k], x, startY + (k * lineHeight));
-            }
-        }
-
-        let flowerFrame = 0;
-
-        function animateFlower() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            let pulse = Math.sin(flowerFrame * 0.06) * 12;
-
-            // Layer A: Render Outer Rose Petals
-            for (let i = 0; i < petalPoints.length; i++) {
-                let pt = petalPoints[i];
-                let dx = Math.cos(pt.angle) * pulse;
-                let dy = Math.sin(pt.angle) * pulse;
-
-                let jx = Math.floor(randomUniform(-1, 2));
-                let jy = Math.floor(randomUniform(-1, 2));
-                let size = randomChoice([1, 2, 3]);
-                let color = (Math.abs(pulse) > 8 && Math.random() > 0.6) ? OUTER_GLOW_COLOR : PETAL_COLOR;
-
-                ctx.fillStyle = color;
-                ctx.fillRect(pt.x + dx + jx, pt.y + dy + jy, size, size);
-            }
-
-            // Layer B: Render Core Pistil Center
-            ctx.fillStyle = FLOWER_CORE_COLOR;
-            for (let i = 0; i < corePoints.length; i++) {
-                let pt = corePoints[i];
-                let dx = Math.cos(pt.angle) * (pulse * 0.25);
-                let dy = Math.sin(pt.angle) * (pulse * 0.25);
-                let size = randomChoice([1, 2]);
-
-                ctx.fillRect(pt.x + dx, pt.y + dy, size, size);
-            }
-
-            
-            ctx.save();
-            ctx.fillStyle = "white";
-            ctx.font = "italic bold 20px Arial, sans-serif";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            
-            
-            ctx.shadowColor = "rgba(255, 101, 163, 0.9)";
-            ctx.shadowBlur = 10;
-
-            const textMessage = "Our monthsary memory website, you can visit here anytime po my meowmeooow to see all our memories and moments.";
-            
-            // Render shorter wrapped text lower in the flower
-            wrapText(ctx, textMessage, CANVAS_CENTER_X, CANVAS_CENTER_Y + 200, 500, 23);
-            ctx.restore();
-
-            flowerFrame++;
-            requestAnimationFrame(animateFlower);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(typeWriter, 600);
-            buildFlower();
-            animateFlower();
-        });
-    </script>
-
-        <!-- Swipe-down transition: swipe down to go to suprise.html -->
-        <style>
-            #slideOverlay{position:fixed;inset:0;z-index:9999;pointer-events:none;transform:translateY(0);transition:transform .45s ease, opacity .35s;opacity:0;background:transparent}
-        </style>
-        <div id="slideOverlay" aria-hidden="true"></div>
-        <script>
-        (function(){
-            const threshold = 120;
-            let startY = null, deltaY = 0, dragging = false;
-            const overlay = document.getElementById('slideOverlay');
-
-            function onStart(e){ startY = e.touches ? e.touches[0].clientY : e.clientY; dragging = true; overlay.style.transition = 'none'; }
-            function onMove(e){ if(!dragging) return; const y = e.touches ? e.touches[0].clientY : e.clientY; deltaY = Math.max(0, y - startY); overlay.style.transform = `translateY(${deltaY}px)`; overlay.style.opacity = Math.min(1, deltaY / 300); overlay.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06))'; }
-            function onEnd(){ dragging = false; overlay.style.transition = 'transform .45s ease, opacity .35s'; if(deltaY > threshold){ overlay.style.transform = `translateY(100vh)`; overlay.style.opacity = 1; setTimeout(()=> location.href = 'suprise.html', 420); } else { overlay.style.transform = 'translateY(0)'; overlay.style.opacity = 0; } startY = null; deltaY = 0; }
-
-            ['touchstart','mousedown'].forEach(ev => window.addEventListener(ev, onStart, {passive:true}));
-            ['touchmove','mousemove'].forEach(ev => window.addEventListener(ev, onMove, {passive:true}));
-            ['touchend','mouseup','touchcancel','mouseleave'].forEach(ev => window.addEventListener(ev, onEnd));
-        })();
-        </script>
 </body>
 </html>
