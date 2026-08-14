@@ -15,9 +15,10 @@
     </script>
     <style>
         :root {
-            --bg: linear-gradient(135deg, #22023a 0%, #360a5f 37%, #c455c5 65%, #140022 100%);
-            --border: rgba(255, 255, 255, 0.22);
-            --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+            --bg: radial-gradient(circle at 20% 0%, #2a0018 0%, #14000c 45%, #0a0007 100%);
+            --border: rgba(255, 105, 180, 0.25);
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+            --accent: #ff69b4;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,31 +38,31 @@
             position: fixed; top: 0; left: 0; width: 100%;
             display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;
             padding: 16px 14px; z-index: 999;
-            background: rgba(255,255,255,0.06);
+            background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25), 0 0 40px rgba(196,85,197,0.08);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
         }
 
         .navbar a {
             position: relative; color: white; text-decoration: none;
             font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 600;
             padding: 11px 20px; border-radius: 14px;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,105,180,0.06); border: 1px solid var(--border);
             transition: 0.35s ease; overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.18); display: inline-block;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3); display: inline-block;
         }
         .navbar a::before {
             content: ""; position: absolute; top: 0; left: -100%;
             width: 100%; height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+            background: linear-gradient(120deg, transparent, rgba(255,105,180,0.25), transparent);
             transition: 0.5s;
         }
         .navbar a:hover::before { left: 100%; }
         .navbar a:hover {
             transform: translateY(-4px) scale(1.03);
-            background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.28), 0 0 25px rgba(255,182,230,0.25);
+            background: rgba(255,105,180,0.14); border-color: rgba(255,105,180,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 25px rgba(255,105,180,0.25);
         }
 
         /* HERO */
@@ -74,8 +75,8 @@
 
         .hero h1 {
             font-size: clamp(2.8rem, 5vw, 4.5rem);
-            letter-spacing: 0.12em; color: #ffd8ff;
-            text-shadow: 0 12px 24px rgba(0,0,0,0.28), 0 0 20px rgba(255,182,230,0.25);
+            letter-spacing: 0.12em; color: var(--accent);
+            text-shadow: 0 12px 24px rgba(0,0,0,0.4), 0 0 20px rgba(255,105,180,0.3);
         }
 
         .scroll-hint {
@@ -102,15 +103,21 @@
             gap: 28px;
         }
 
-        /* PHOTO CARD with overlay text */
+        /* PHOTO CARD — YouTube-style: thumbnail on top, text below */
         .mem-card {
             position: relative;
-            border-radius: 24px;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid var(--border);
+            background: #150009;
+        }
+
+        .mem-card .thumb {
+            width: 100%;
             aspect-ratio: 16/9;
-            background: #1a0030;
+            overflow: hidden;
+            background: #150009;
         }
 
         .mem-card img {
@@ -124,55 +131,28 @@
             transform: scale(1.04);
         }
 
-        /* dark fade at bottom */
-        .mem-card .overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 30%,
-                rgba(10, 0, 20, 0.55) 60%,
-                rgba(10, 0, 20, 0.88) 100%
-            );
-            pointer-events: none;
-        }
-
-        /* accent line */
-        .mem-card .overlay::before {
-            content: "";
-            position: absolute;
-            left: 24px; bottom: calc(100% - 68%);
-            width: 40px; height: 3px;
-            background: linear-gradient(90deg, #FFB4E8, #FF6B9C);
-            border-radius: 4px;
-        }
-
         .mem-card .text {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 20px 22px 22px;
-            z-index: 2;
+            padding: 14px 16px 18px;
         }
 
         .mem-card .text h2 {
-            font-size: clamp(1.1rem, 4vw, 1.4rem);
-            color: #ffd8ff;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            font-size: clamp(1rem, 3.6vw, 1.2rem);
+            color: var(--accent);
+            margin-bottom: 4px;
             font-weight: 700;
         }
 
         .mem-card .text p {
-            font-size: clamp(0.82rem, 3vw, 0.95rem);
-            color: rgba(255,230,245,0.88);
-            line-height: 1.55;
-            text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            color: rgba(255,220,235,0.75);
+            line-height: 1.5;
         }
 
         /* BLANK / ADD-YOUR-OWN CARD */
         .mem-card.blank {
-            background: rgba(255,255,255,0.04);
-            border: 2px dashed rgba(255,255,255,0.35);
+            background: rgba(255,105,180,0.04);
+            border: 2px dashed rgba(255,105,180,0.35);
+            aspect-ratio: 16/9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -186,11 +166,15 @@
             font-size: 2.4rem;
             line-height: 1;
             margin-bottom: 8px;
-            color: rgba(255,182,230,0.8);
+            color: var(--accent);
         }
         .mem-card.blank .add-hint p {
             font-size: 0.85rem;
             letter-spacing: 0.03em;
+        }
+        .mem-card.blank .thumb {
+            width: 100%;
+            aspect-ratio: auto;
         }
  
         /* tablet */
@@ -203,7 +187,7 @@
             }
             .hero h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); }
             #gallery { padding: 80px 20px 100px; max-width: 750px; }
-            .mem-card { border-radius: 20px; aspect-ratio: 4/3; }
+            .mem-card { border-radius: 14px; }
         }
 
         /* mobile */
@@ -217,7 +201,7 @@
             }
             .hero h1 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
             #gallery { padding: 50px 14px 80px; }
-            .mem-card { border-radius: 18px; aspect-ratio: 3/4; }
+            .mem-card { border-radius: 12px; }
         }
 
         @media (max-width: 480px) {
@@ -230,7 +214,7 @@
             }
             .hero h1 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
             #gallery { padding: 40px 12px 70px; gap: 20px; }
-            .mem-card { border-radius: 16px; aspect-ratio: 3/4; }
+            .mem-card { border-radius: 10px; }
         }
 
         @media (max-width: 360px) {
@@ -258,8 +242,7 @@
     <div id="gallery">
 
         <div class="mem-card">
-            <img src="1st.jpg" alt="Sweet first moments">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="1st.jpg" alt="Sweet first moments"></div>
             <div class="text">
                 <h2>Sweet first moments</h2>
                 <p>Wala pa masyado maayos na dami kaya ayan muna sakto winter din para di tayo lamigin hahaha, tas holding hands ayieeeee.</p>
@@ -267,8 +250,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="2nd.jpg" alt="Our story">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="2nd.jpg" alt="Our story"></div>
             <div class="text">
                 <h2>Our story</h2>
                 <p>Cote mo ditoo baby meowmeooow, nun na discover natin emote sa hato tas hanap tayo ng place ng picture, mali pa yun ginamit ko dyan that time yun scanner yun ginamit ko sa ibon imbes na camera HAHAHAHAHAHA.</p>
@@ -276,8 +258,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="yona.jpg" alt="More than just pictures">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="yona.jpg" alt="More than just pictures"></div>
             <div class="text">
                 <h2>More than just pictures</h2>
                 <p>Ganda ng kuha natin dito my meowmeoow huehehe tas emo era tayo.</p>
@@ -285,8 +266,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="3rd.jpg" alt="Forever together">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="3rd.jpg" alt="Forever together"></div>
             <div class="text">
                 <h2>Forever together</h2>
                 <p>New emotee ulit gandaa natin dito heuehue muka kang gengeng dito e HAHAHAHA.</p>
@@ -294,8 +274,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="4TH.jpg" alt="Kwarto ni ate Joy">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="4TH.jpg" alt="Kwarto ni ate Joy"></div>
             <div class="text">
                 <h2>Kwarto ni ate Joy</h2>
                 <p>Hala naga lulu na HHAAHAHHAHA.</p>
@@ -303,8 +282,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="yona.jpg" alt="Party ni dorothy">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="yona.jpg" alt="Party ni dorothy"></div>
             <div class="text">
                 <h2>Party ni dorothy</h2>
                 <p>Nood fireworks with youu.</p>
@@ -312,8 +290,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="67.png" alt="Nag ukay ukay">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="67.png" alt="Nag ukay ukay"></div>
             <div class="text">
                 <h2>Nag ukay ukay</h2>
                 <p>67 hahahahhahaa.</p>
@@ -321,8 +298,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="emo.png" alt="Emo era">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="emo.png" alt="Emo era"></div>
             <div class="text">
                 <h2>Party ni dorothy</h2>
                 <p>emo era heuheeue.</p>
@@ -330,8 +306,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="aang.png" alt="Movie">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="aang.png" alt="Movie"></div>
             <div class="text">
                 <h2>Movie</h2>
                 <p>huehuhe nanood us ng new movie ni aang.</p>
@@ -339,8 +314,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="dis.png" alt="bahay ni meowmeow">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="dis.png" alt="bahay ni meowmeow"></div>
             <div class="text">
                 <h2>bahay ni meowmeow</h2>
                 <p>look heueuehueh cutee 🌙</p>
@@ -348,8 +322,7 @@
         </div>
 
         <div class="mem-card">
-            <img src="69.jpg" alt="tambling">
-            <div class="overlay"></div>
+            <div class="thumb"><img src="69.jpg" alt="tambling"></div>
             <div class="text">
                 <h2>tambling</h2>
                 <p>hHAHAHAHAHAHAHA KAIN ****</p>
@@ -372,12 +345,13 @@
                 <div class="plus">+</div>
                 <p>Tap to add your photo</p>
             </div>
-            <img id="uploadImg" style="display:none;">
-            <div class="overlay" id="uploadOverlay" style="display:none;"></div>
+            <div class="thumb" id="uploadThumb" style="display:none;">
+                <img id="uploadImg">
+            </div>
             <div class="text" id="uploadText" style="display:none;">
                 <h2 contenteditable="true" id="uploadTitle">Tap to add a title</h2>
                 <p contenteditable="true" id="uploadCaption">Tap to add a caption</p>
-                <button id="uploadSaveBtn" style="margin-top:10px;padding:8px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,105,180,0.25);color:#fff;font-weight:600;cursor:pointer;">Save</button>
+                <button id="uploadSaveBtn" style="margin-top:10px;padding:8px 16px;border-radius:10px;border:1px solid rgba(255,105,180,0.4);background:rgba(255,105,180,0.25);color:#fff;font-weight:600;cursor:pointer;">Save</button>
                 <span id="uploadStatus" style="margin-left:10px;font-size:0.8rem;color:rgba(255,255,255,0.7);"></span>
             </div>
         </div>
@@ -391,7 +365,7 @@
             const input = document.getElementById('uploadInput');
             const addHint = document.getElementById('addHint');
             const img = document.getElementById('uploadImg');
-            const overlay = document.getElementById('uploadOverlay');
+            const thumb = document.getElementById('uploadThumb');
             const textBox = document.getElementById('uploadText');
             const titleEl = document.getElementById('uploadTitle');
             const captionEl = document.getElementById('uploadCaption');
@@ -405,8 +379,7 @@
                 const c = document.createElement('div');
                 c.className = 'mem-card';
                 c.innerHTML = `
-                    <img src="${entry.src}" alt="${entry.title || ''}">
-                    <div class="overlay"></div>
+                    <div class="thumb"><img src="${entry.src}" alt="${entry.title || ''}"></div>
                     <div class="text">
                         <h2>${entry.title || ''}</h2>
                         <p>${entry.caption || ''}</p>
@@ -423,16 +396,14 @@
 
             function showPhotoMode() {
                 addHint.style.display = 'none';
-                img.style.display = 'block';
-                overlay.style.display = 'block';
+                thumb.style.display = 'block';
                 textBox.style.display = 'block';
                 card.classList.remove('blank');
             }
 
             function resetUploadCard() {
                 addHint.style.display = 'flex';
-                img.style.display = 'none';
-                overlay.style.display = 'none';
+                thumb.style.display = 'none';
                 textBox.style.display = 'none';
                 card.classList.add('blank');
                 titleEl.textContent = 'Tap to add a title';
@@ -476,12 +447,13 @@
                             caption: captionEl.textContent.trim()
                         })
                     });
-                    if (!res.ok) throw new Error('Upload failed');
                     const data = await res.json();
+                    if (!res.ok) throw new Error(data.error || `Upload failed (${res.status})`);
                     addCardToPage(data.entry);
                     resetUploadCard();
                 } catch (err) {
-                    statusEl.textContent = 'Save failed, try again';
+                    console.error(err);
+                    statusEl.textContent = 'Failed: ' + err.message;
                     saveBtn.disabled = false;
                 }
             });
