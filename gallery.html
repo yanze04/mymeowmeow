@@ -168,6 +168,30 @@
             line-height: 1.55;
             text-shadow: 0 1px 6px rgba(0,0,0,0.7);
         }
+
+        /* BLANK / ADD-YOUR-OWN CARD */
+        .mem-card.blank {
+            background: rgba(255,255,255,0.04);
+            border: 2px dashed rgba(255,255,255,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mem-card.blank .add-hint {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.65);
+        }
+        .mem-card.blank .add-hint .plus {
+            font-size: 2.4rem;
+            line-height: 1;
+            margin-bottom: 8px;
+            color: rgba(255,182,230,0.8);
+        }
+        .mem-card.blank .add-hint p {
+            font-size: 0.85rem;
+            letter-spacing: 0.03em;
+        }
  
         /* tablet */
         @media (max-width: 768px) {
@@ -329,6 +353,21 @@
             <div class="text">
                 <h2>tambling</h2>
                 <p>hHAHAHAHAHAHAHA KAIN ****</p>
+            </div>
+        </div>
+
+        <!-- ============================================
+             BLANK TEMPLATE CARD — copy/paste this block
+             to add a new memory. To fill it in:
+             1) Change class="mem-card blank" to class="mem-card"
+             2) Set the img src to your photo filename
+             3) Replace the h2 title and p caption text
+             4) Delete the <div class="add-hint">...</div> block
+             ============================================ -->
+        <div class="mem-card blank">
+            <div class="add-hint">
+                <div class="plus">+</div>
+                <p>Add your photo &amp; caption here</p>
             </div>
         </div>
 
