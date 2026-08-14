@@ -356,22 +356,137 @@
             </div>
         </div>
 
+        <!-- Photos added through the upload card are inserted here -->
+        <div id="dynamicEntries"></div>
+
         <!-- ============================================
-             BLANK TEMPLATE CARD — copy/paste this block
-             to add a new memory. To fill it in:
-             1) Change class="mem-card blank" to class="mem-card"
-             2) Set the img src to your photo filename
-             3) Replace the h2 title and p caption text
-             4) Delete the <div class="add-hint">...</div> block
+             UPLOAD CARD — tap it to pick a photo from your
+             device, edit the title/caption, then tap Save.
+             This sends the photo to /api/upload, which stores
+             it permanently (Vercel Blob) so it shows for
+             anyone who visits the site, not just this phone.
              ============================================ -->
-        <div class="mem-card blank">
-            <div class="add-hint">
+        <div class="mem-card blank" id="uploadCard">
+            <input type="file" id="uploadInput" accept="image/*" style="display:none;">
+            <div class="add-hint" id="addHint">
                 <div class="plus">+</div>
-                <p>Add your photo &amp; caption here</p>
+                <p>Tap to add your photo</p>
+            </div>
+            <img id="uploadImg" style="display:none;">
+            <div class="overlay" id="uploadOverlay" style="display:none;"></div>
+            <div class="text" id="uploadText" style="display:none;">
+                <h2 contenteditable="true" id="uploadTitle">Tap to add a title</h2>
+                <p contenteditable="true" id="uploadCaption">Tap to add a caption</p>
+                <button id="uploadSaveBtn" style="margin-top:10px;padding:8px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,105,180,0.25);color:#fff;font-weight:600;cursor:pointer;">Save</button>
+                <span id="uploadStatus" style="margin-left:10px;font-size:0.8rem;color:rgba(255,255,255,0.7);"></span>
             </div>
         </div>
 
     </div>
+
+    <script>
+        (function(){
+            const dynamicEntries = document.getElementById('dynamicEntries');
+            const card = document.getElementById('uploadCard');
+            const input = document.getElementById('uploadInput');
+            const addHint = document.getElementById('addHint');
+            const img = document.getElementById('uploadImg');
+            const overlay = document.getElementById('uploadOverlay');
+            const textBox = document.getElementById('uploadText');
+            const titleEl = document.getElementById('uploadTitle');
+            const captionEl = document.getElementById('uploadCaption');
+            const saveBtn = document.getElementById('uploadSaveBtn');
+            const statusEl = document.getElementById('uploadStatus');
+
+            let pendingBase64 = null;
+            let pendingFilename = null;
+
+            function addCardToPage(entry) {
+                const c = document.createElement('div');
+                c.className = 'mem-card';
+                c.innerHTML = `
+                    <img src="${entry.src}" alt="${entry.title || ''}">
+                    <div class="overlay"></div>
+                    <div class="text">
+                        <h2>${entry.title || ''}</h2>
+                        <p>${entry.caption || ''}</p>
+                    </div>
+                `;
+                dynamicEntries.appendChild(c);
+            }
+
+            // Load previously saved photos so everyone sees them
+            fetch('/api/gallery')
+                .then(r => r.ok ? r.json() : [])
+                .then(entries => entries.forEach(addCardToPage))
+                .catch(() => {});
+
+            function showPhotoMode() {
+                addHint.style.display = 'none';
+                img.style.display = 'block';
+                overlay.style.display = 'block';
+                textBox.style.display = 'block';
+                card.classList.remove('blank');
+            }
+
+            function resetUploadCard() {
+                addHint.style.display = 'flex';
+                img.style.display = 'none';
+                overlay.style.display = 'none';
+                textBox.style.display = 'none';
+                card.classList.add('blank');
+                titleEl.textContent = 'Tap to add a title';
+                captionEl.textContent = 'Tap to add a caption';
+                statusEl.textContent = '';
+                pendingBase64 = null;
+                pendingFilename = null;
+                input.value = '';
+            }
+
+            card.addEventListener('click', (e) => {
+                if (e.target === titleEl || e.target === captionEl || e.target === saveBtn) return;
+                if (!pendingBase64) input.click();
+            });
+
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                if (!file) return;
+                pendingFilename = file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    pendingBase64 = e.target.result;
+                    img.src = pendingBase64;
+                    showPhotoMode();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            saveBtn.addEventListener('click', async () => {
+                if (!pendingBase64) return;
+                statusEl.textContent = 'Saving...';
+                saveBtn.disabled = true;
+                try {
+                    const res = await fetch('/api/upload', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            imageBase64: pendingBase64,
+                            filename: pendingFilename,
+                            title: titleEl.textContent.trim(),
+                            caption: captionEl.textContent.trim()
+                        })
+                    });
+                    if (!res.ok) throw new Error('Upload failed');
+                    const data = await res.json();
+                    addCardToPage(data.entry);
+                    resetUploadCard();
+                } catch (err) {
+                    statusEl.textContent = 'Save failed, try again';
+                    saveBtn.disabled = false;
+                }
+            });
+        })();
+    </script>
 
     <style>
         #slideOverlay { position:fixed; inset:0; z-index:9999; pointer-events:none; transform:translateY(0); transition:transform .45s ease, opacity .35s; opacity:0; background:transparent }
