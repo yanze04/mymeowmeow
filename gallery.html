@@ -234,6 +234,33 @@
         <a href="games.html">Games</a>
     </div>
 
+    <!-- Background audio (place the MP3 in the same folder as this HTML file) -->
+    <audio id="bg-audio" autoplay loop>
+        <source src="Ed Sheeran - Perfect (Lyrics).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Mute/unmute toggle -->
+    <button id="audio-toggle" title="Toggle background music" style="position:fixed;right:16px;bottom:16px;padding:10px 12px;border-radius:12px;border:none;background:rgba(255,105,180,0.15);color:#fff;backdrop-filter:blur(8px);z-index:1000;">🔊</button>
+
+    <script>
+        const audio = document.getElementById('bg-audio');
+        const audioBtn = document.getElementById('audio-toggle');
+        audioBtn.addEventListener('click', () => {
+            if (audio.muted || audio.paused) {
+                audio.muted = false;
+                audio.play().catch(()=>{});
+                audioBtn.textContent = '🔊';
+            } else {
+                audio.muted = true;
+                audioBtn.textContent = '🔈';
+            }
+        });
+        const audioPref = localStorage.getItem('bg-audio-muted');
+        if (audioPref === 'true') { audio.muted = true; audioBtn.textContent = '🔈'; }
+        window.addEventListener('beforeunload', () => localStorage.setItem('bg-audio-muted', audio.muted));
+    </script>
+
     <section class="hero">
         <h1>GALLERY ❤️</h1>
         <div class="scroll-hint">Scroll down</div>
