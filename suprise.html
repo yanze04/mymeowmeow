@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy 2nd Monthsarry 🤍</title>
+  <title>Happy Monthsarry 🤍</title>
   <script>
     const navEntries = performance.getEntriesByType('navigation');
     const isReload = navEntries.length
@@ -233,12 +233,12 @@
   <div id="hearts"></div>
 
   <div id="content">
-    <div id="eyebrow">✦ &nbsp; 1st monthsarry &nbsp; ✦</div>
-    <div id="main-title">Happy 1st<br>Monthsarry</div>
+    <div id="eyebrow">✦ &nbsp; <span id="ordinal-eyebrow"></span> monthsarry &nbsp; ✦</div>
+    <div id="main-title">Happy <span id="ordinal-title"></span><br>Monthsarry</div>
     <div id="sub">my yona, meowmeoow, lovee 🤍</div>
     <div id="divider"></div>
-    <div id="message">
-      1st month with you my meoowmeooow<br>
+    <div id="message" id="message-text">
+      <span id="ordinal-message"></span> month with you my meoowmeooow<br>
       and it already feels like forever. 🐱
     </div>
     <div id="tap-hint">tap anywhere for your surprise ♡</div>
@@ -249,6 +249,45 @@
 <div id="flash"></div>
 
 <script>
+  /* ── monthsary auto-counter ──
+     Change START_DATE to the day your relationship started.
+     Every month, on the same day-of-month, the counter bumps up by one
+     and the page shows "Nth Monthsarry" automatically — no manual edits needed.
+     Example: start = April 5, 2026 → Sept 5, 2026 is the 5th monthsarry,
+     Oct 5, 2026 becomes the 6th, Nov 5 the 7th, and so on.
+  */
+  const START_DATE = new Date(2026, 3, 5); // Year, Month (0-indexed, so 3 = April), Day
+
+  function ordinalSuffix(n) {
+    const rem100 = n % 100;
+    if (rem100 >= 11 && rem100 <= 13) return n + 'th';
+    switch (n % 10) {
+      case 1: return n + 'st';
+      case 2: return n + 'nd';
+      case 3: return n + 'rd';
+      default: return n + 'th';
+    }
+  }
+
+  function getMonthsaryNumber(startDate, today) {
+    let months = (today.getFullYear() - startDate.getFullYear()) * 12
+               + (today.getMonth() - startDate.getMonth());
+    // Only count the month as "reached" once we hit or pass the anniversary day
+    if (today.getDate() < startDate.getDate()) {
+      months -= 1;
+    }
+    return Math.max(months, 0);
+  }
+
+  const today = new Date();
+  const monthsaryNumber = getMonthsaryNumber(START_DATE, today);
+  const ordinal = ordinalSuffix(monthsaryNumber);
+
+  document.title = `Happy ${ordinal} Monthsarry 🤍`;
+  document.getElementById('ordinal-eyebrow').textContent = ordinal;
+  document.getElementById('ordinal-title').textContent = `${ordinal}`;
+  document.getElementById('ordinal-message').textContent = ordinal;
+
   /* ── stars ── */
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 55; i++) {
@@ -288,7 +327,7 @@
   for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 400);
   setInterval(spawnHeart, 650);
 
-  /* ── tap to go to memories.html */
+  /* ── tap to go to memories.html ── */
   function tapSurprise() {
     const flash = document.getElementById('flash');
     flash.classList.add('go');
