@@ -104,7 +104,7 @@
     }
 
     @keyframes floatUp {
-      0%   { opacity: 0;    transform: translateY(0)     scale(0.5) rotate(var(--r)); }
+      0%   { opacity: 0;    transform: translateY(0)      scale(0.5) rotate(var(--r)); }
       12%  { opacity: 0.8; }
       88%  { opacity: 0.4; }
       100% { opacity: 0;    transform: translateY(-105vh) scale(1.1) rotate(calc(var(--r) * -1)); }
@@ -225,7 +225,7 @@
 <div id="scene" onclick="tapSurprise()">
 
   <img id="bg-img" src="yonaa.jpg" alt="Yona and cat"
-        onerror="this.style.display='none'" />
+       onerror="this.style.display='none'" />
 
   <div id="gradient-overlay"></div>
   <div id="vignette"></div>
@@ -237,7 +237,7 @@
     <div id="main-title">Happy <span id="ordinal-title"></span><br>Monthsarry</div>
     <div id="sub">my yona, meowmeoow, lovee 🤍</div>
     <div id="divider"></div>
-    <div id="message">
+    <div id="message" id="message-text">
       <span id="ordinal-message"></span> month with you my meoowmeooow<br>
       and it already feels like forever. 🐱
     </div>
@@ -250,10 +250,13 @@
 
 <script>
   /* ── monthsary auto-counter ──
-     Change START_DATE to the exact day your relationship started.
-     Month is 0-indexed: 3 = April, 4 = May, etc.
+     START_DATE is the day you got together, and it's counted as
+     Monthsary #1 right away — so the SAME calendar day next month
+     is #2, the month after that is #3, and so on.
+     Example: start = May 5, 2026 → May 5 is the 1st monthsarry,
+     June 5 is the 2nd, ... Sept 5 is the 5th, Oct 5 becomes the 6th.
   */
-  const START_DATE = new Date(2026, 3, 5); // April 5, 2026
+  const START_DATE = new Date(2026, 4, 5); // Year, Month (0-indexed, so 4 = May), Day
 
   function ordinalSuffix(n) {
     const rem100 = n % 100;
@@ -267,16 +270,14 @@
   }
 
   function getMonthsaryNumber(startDate, today) {
-    let yearsDiff = today.getFullYear() - startDate.getFullYear();
-    let monthsDiff = today.getMonth() - startDate.getMonth();
-    let totalMonths = yearsDiff * 12 + monthsDiff;
-
-    // If today's day of the month is less than the start day, 
-    // the current month's anniversary hasn't triggered yet, so subtract 1.
+    let months = (today.getFullYear() - startDate.getFullYear()) * 12
+               + (today.getMonth() - startDate.getMonth());
+    // Only count the month as "reached" once we hit or pass the anniversary day
     if (today.getDate() < startDate.getDate()) {
-      totalMonths -= 1;
+      months -= 1;
     }
-    return Math.max(totalMonths, 0);
+    // The start month itself counts as Monthsary #1
+    return Math.max(months + 1, 1);
   }
 
   const today = new Date();
